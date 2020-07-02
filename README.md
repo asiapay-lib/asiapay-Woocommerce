@@ -24,7 +24,7 @@ This plugin supports Woocommerce version 2.1.2 and higher.
  4. On the confirmation page, review your changes then click the “Confirm button”.
 
  ## Documentation
-[Woocommerce documentation](https://github.com/asiapay-lib/Woocommerce/WordPress+WooCommerce Module Integration Guide.doc)
+[Woocommerce documentation](https://github.com/asiapay-lib/Woocommerce/raw/master/WordPress%2BWooCommerce%20Module%20Integration%20Guide.doc)
 
 ## Support
 If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [Customer Service](https://www.paydollar.com/en/contactus.html).
