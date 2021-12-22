@@ -355,7 +355,7 @@ function woocommerce_paydollar_init(){
 					if($order -> status != 'completed'){
 						
 						$secureHashArr = explode ( ',', $secureHash );
-						while ( list ( $key, $value ) = each ( $secureHashArr ) ) {
+						foreach($secureHashArr as $key => $value) {
 							$checkSecureHash = $this->verifyPaymentDatafeed($src, $prc, $successCode, $ref, $payRef, $cur, $amt, $payerAuth, $this->secure_hash_secret, $value);
 							if($checkSecureHash){
 								break;
