@@ -347,7 +347,8 @@ function woocommerce_paydollar_init(){
 			if( isset($ref) && isset($successCode) && isset($prc) && isset($src) ){
 				
 				$order_id = $ref;
-
+				
+				wc_get_logger()->info( 'Order Received %s', $order_id );
 				//prefix handler
 				$hasPrefix = preg_match("/-/", $order_id);
 				if($hasPrefix == 1){
@@ -358,7 +359,7 @@ function woocommerce_paydollar_init(){
 				if($order_id != ''){					
 					$order = new WC_Order($order_id);					
 					if($order -> status != 'completed'){
-						
+						wc_get_logger()->info( sprintf( 'Prepare Order: Status - %s', $order -> status ) );
 						$secureHashArr = explode ( ',', $secureHash );
 						foreach ($secureHashArr as $key => $value) {
 							$checkSecureHash = $this->verifyPaymentDatafeed($src, $prc, $successCode, $ref, $payRef, $cur, $amt, $payerAuth, $this->secure_hash_secret, $value);
@@ -372,7 +373,8 @@ function woocommerce_paydollar_init(){
 							if($successCode == "0"){								
 								if($order -> status == 'processing'){
 									//do nothing
-								}else{									
+								}else{		
+									wc_get_logger()->info( 'Order Success' );
 									$this -> msg['message'] = 'Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon. Payment reference no: ' . $payRef;
 									$this -> msg['class'] = 'woocommerce_message';
 									
@@ -384,7 +386,8 @@ function woocommerce_paydollar_init(){
 							}else{	
 								if($order -> status == 'processing'){
 									//do nothing
-								}else{							
+								}else{
+									wc_get_logger()->info( 'Order Failure' );
 									$this -> msg['message'] = 'Thank you for shopping with us. However, the transaction has been declined. Payment reference no: '. $payRef;
 									$this -> msg['class'] = 'woocommerce_error';
 									
@@ -394,6 +397,7 @@ function woocommerce_paydollar_init(){
 								}
 							}
 						}else{
+							wc_get_logger()->info( 'Order Rejected by SecureHash Checking' );
 							$this -> msg['message'] = 'Security Error. Illegal access detected. Payment reference no: '.$payRef;
 							$this -> msg['class'] = 'error';
 							
