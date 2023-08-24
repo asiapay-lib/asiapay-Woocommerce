@@ -313,6 +313,11 @@ function woocommerce_paydollar_init(){
 			
 		}
 
+		function get_request($name, $default=null) {
+			$rtn = isset($_POST[$name]) ? $_POST[$name] : $_GET[$name];
+			return isset($rtn) ? $rtn : $default;
+		}
+
 		/**
 		 * Check for valid paydollar server datafeed
 		 **/
@@ -320,29 +325,30 @@ function woocommerce_paydollar_init(){
 			
 			global $woocommerce;
 			
-			$src = $_POST['src'];
-			$prc = $_POST['prc'];
-			$ord = $_POST['Ord'];
-			$holder = $_POST['Holder'];
-			$successCode = $_POST['successcode'];
-			$ref = $_POST['Ref'];
-			$payRef = $_POST['PayRef'];
-			$amt = $_POST['Amt'];
-			$cur = $_POST['Cur'];
-			$remark = $_POST['remark'];
-			$authId = $_POST['AuthId'];
-			$eci = $_POST['eci'];
-			$payerAuth = $_POST['payerAuth'];
-			$sourceIp = $_POST['sourceIp'];
-			$ipCountry = $_POST['ipCountry'];
-			$secureHash = isset($_POST['secureHash']) ? $_POST['secureHash'] : "" ;
+			$src = get_request('src');
+			$prc = get_request('prc');
+			$ord = get_request('Ord');
+			$holder = get_request('Holder');
+			$successCode = get_request('successcode');
+			$ref = get_request('Ref');
+			$payRef = get_request('PayRef');
+			$amt = get_request('Amt');
+			$cur = get_request('Cur');
+			$remark = get_request('remark');
+			$authId = get_request('AuthId');
+			$eci = get_request('eci');
+			$payerAuth = get_request('payerAuth');
+			$sourceIp = get_request('sourceIp');
+			$ipCountry = get_request('ipCountry');
+			$secureHash = get_request('secureHash', "");
 			
 			echo "OK!";
 			
-			if( isset($_POST['Ref']) && isset($_POST['successcode']) && isset($_POST['src']) && isset($_POST['src']) ){
+			if( isset($ref) && isset($successCode) && isset($prc) && isset($src) ){
 				
 				$order_id = $ref;
-
+				
+				wc_get_logger()->info( 'Order Received %s', $order_id );
 				//prefix handler
 				$hasPrefix = preg_match("/-/", $order_id);
 				if($hasPrefix == 1){
@@ -353,7 +359,7 @@ function woocommerce_paydollar_init(){
 				if($order_id != ''){					
 					$order = new WC_Order($order_id);					
 					if($order -> status != 'completed'){
-						
+						wc_get_logger()->info( sprintf( 'Prepare Order: Status - %s', $order -> status ) );
 						$secureHashArr = explode ( ',', $secureHash );
 						foreach ($secureHashArr as $key => $value) {
 							$checkSecureHash = $this->verifyPaymentDatafeed($src, $prc, $successCode, $ref, $payRef, $cur, $amt, $payerAuth, $this->secure_hash_secret, $value);
@@ -367,11 +373,12 @@ function woocommerce_paydollar_init(){
 							if($successCode == "0"){								
 								if($order -> status == 'processing'){
 									//do nothing
-								}else{									
+								}else{		
+									wc_get_logger()->info( 'Order Success' );
 									$this -> msg['message'] = 'Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon. Payment reference no: ' . $payRef;
 									$this -> msg['class'] = 'woocommerce_message';
 									
-									$order -> payment_complete();
+									$order -> update_status('completed');
 									$order -> add_order_note('Your payment was successful! Payment reference no: '.$payRef);
 									$woocommerce -> cart -> empty_cart();	
 									echo ' - Payment Success!';
@@ -379,7 +386,8 @@ function woocommerce_paydollar_init(){
 							}else{	
 								if($order -> status == 'processing'){
 									//do nothing
-								}else{							
+								}else{
+									wc_get_logger()->info( 'Order Failure' );
 									$this -> msg['message'] = 'Thank you for shopping with us. However, the transaction has been declined. Payment reference no: '. $payRef;
 									$this -> msg['class'] = 'woocommerce_error';
 									
@@ -389,6 +397,7 @@ function woocommerce_paydollar_init(){
 								}
 							}
 						}else{
+							wc_get_logger()->info( 'Order Rejected by SecureHash Checking' );
 							$this -> msg['message'] = 'Security Error. Illegal access detected. Payment reference no: '.$payRef;
 							$this -> msg['class'] = 'error';
 							
