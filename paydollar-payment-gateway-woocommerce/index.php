@@ -325,22 +325,22 @@ function woocommerce_paydollar_init(){
 			
 			global $woocommerce;
 			
-			$src = get_request('src');
-			$prc = get_request('prc');
-			$ord = get_request('Ord');
-			$holder = get_request('Holder');
-			$successCode = get_request('successcode');
-			$ref = get_request('Ref');
-			$payRef = get_request('PayRef');
-			$amt = get_request('Amt');
-			$cur = get_request('Cur');
-			$remark = get_request('remark');
-			$authId = get_request('AuthId');
-			$eci = get_request('eci');
-			$payerAuth = get_request('payerAuth');
-			$sourceIp = get_request('sourceIp');
-			$ipCountry = get_request('ipCountry');
-			$secureHash = get_request('secureHash', "");
+			$src = $this->get_request('src');
+			$prc = $this->get_request('prc');
+			$ord = $this->get_request('Ord');
+			$holder = $this->get_request('Holder');
+			$successCode = $this->get_request('successcode');
+			$ref = $this->get_request('Ref');
+			$payRef = $this->get_request('PayRef');
+			$amt = $this->get_request('Amt');
+			$cur = $this->get_request('Cur');
+			$remark = $this->get_request('remark');
+			$authId = $this->get_request('AuthId');
+			$eci = $this->get_request('eci');
+			$payerAuth = $this->get_request('payerAuth');
+			$sourceIp = $this->get_request('sourceIp');
+			$ipCountry = $this->get_request('ipCountry');
+			$secureHash = $this->get_request('secureHash', "");
 			
 			echo "OK!";
 			
