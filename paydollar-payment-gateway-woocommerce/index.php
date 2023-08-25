@@ -22,16 +22,16 @@ function woocommerce_paydollar_init(){
 			$this -> init_form_fields();
 			$this -> init_settings();
 
-			$this -> title = 					$this -> settings['title'];
-			$this -> description = 				$this -> settings['description'];
-			$this -> payment_url = 				$this -> settings['payment_url'];
-			$this -> merchant_id = 				$this -> settings['merchant_id'];
-			$this -> pay_method = 				$this -> settings['pay_method'];
-			$this -> pay_type = 				$this -> settings['pay_type'];
-			$this -> curr_code = 				$this -> getCurrCode(get_woocommerce_currency());
-			$this -> language = 				$this -> settings['language'];
-			$this -> secure_hash_secret = 		$this -> settings['secure_hash_secret'];
-			$this -> prefix = 					$this -> settings['prefix'];
+			$this -> title = 		$this -> settings['title'];
+			$this -> description = 		$this -> settings['description'];
+			$this -> payment_url = 		$this -> settings['payment_url'];
+			$this -> merchant_id = 		$this -> settings['merchant_id'];
+			$this -> pay_method = 		$this -> settings['pay_method'];
+			$this -> pay_type = 		$this -> settings['pay_type'];
+			$this -> curr_code = 		$this -> getCurrCode(get_woocommerce_currency());
+			$this -> language = 		$this -> settings['language'];
+			$this -> secure_hash_secret = 	$this -> settings['secure_hash_secret'];
+			$this -> prefix = 		$this -> settings['prefix'];
 
 			$this -> msg['message'] = "";
 			$this -> msg['class'] = "";
@@ -44,7 +44,7 @@ function woocommerce_paydollar_init(){
 			add_action('woocommerce_receipt_paydollar', array(&$this, 'receipt_page'));
 			
 			/* for callback/datafeed */			
-			add_action( 'woocommerce_api_wc_paydollar', array( $this, 'gateway_response' ) );
+			add_action( 'woocommerce_api_wc_paydollar', array(&$this, 'gateway_response' ) );
 		}
 		
 		function generatePaymentSecureHash($merchantId, $merchantReferenceNumber, $currencyCode, $amount, $paymentType, $secureHashSecret) {
@@ -142,55 +142,54 @@ function woocommerce_paydollar_init(){
 		function init_form_fields(){
 
 			$this -> form_fields = array(
-                'enabled' => array(
-                    'title' => __('Enable/Disable'),
-                    'type' => 'checkbox',
-                    'label' => __('Enable PayDollar Payment Module.'),
-                    'default' => 'no'),
-                'title' => array(
-                    'title' => __('Title:'),
-                    'type'=> 'text',
-                    'description' => __('This controls the title which the user sees during checkout.'),
-                    'default' => __('PayDollar/PesoPay/SiamPay')),
-                'description' => array(
-                    'title' => __('Description:'),
-                    'type' => 'textarea',
-                    'description' => __('This controls the description which the user sees during checkout.'),
-                    'default' => __('Pay securely through PayDollar/PesoPay/SiamPay Secure Servers.')),
-       			'payment_url' => array(
-                    'title' => __('Payment URL'),
-                    'type' => 'text',
-                    'description' => __('
-                    	This is the payment URL of PayDollar/PesoPay/SiamPay (via client post through browser).')),
-                'merchant_id' => array(
-                    'title' => __('Merchant ID'),
-                    'type' => 'text',
-                    'description' => __('This is your PayDollar/PesoPay/SiamPay merchant account ID.')),
-       			'pay_method' => array(
-                    'title' => __('Payment Method'),
-                    'type' => 'text',
-                    'description' => __('"ALL" for all supported payment methods of the merchant account, "CC" for credit cards only. Etc..'),
-                    'default' => __('ALL')),
-       			'pay_type' => array(
-                    'title' => __('Payment Type'),
-                    'type' => 'text',
-                    'description' => __('"N" for Sale (Normal), "H" for Authorize (Hold).'),
-                    'default' => __('N')),
-       			'language' => array(
-                    'title' => __('Language'),
-                    'type' => 'text',
-                    'description' => __('"E" for English, "C" for Traditional Chinese, "T" for Thai, Etc..'),
-                    'default' => __('E')),
-                'secure_hash_secret' => array(
-                    'title' => __('Secure Hash Secret'),
-                    'type' => 'text',
-                    'description' => __('Optional. The secret key from PayDollar/PesoPay/SiamPay for the "Secure Hash" function.'),
-                    'default' => __('')),
-                'prefix' => array(
-                    'title' => __('Prefix'),
-                    'type' => 'text',
-                    'description' => __('Optional. Prefix for Order Reference No. (Warning: Do not use a dash "-" because the system uses it as a separator between the prefix and the order reference no.)'),
-                    'default' => __(''))
+	                'enabled' => array(
+	                    'title' => __('Enable/Disable'),
+	                    'type' => 'checkbox',
+	                    'label' => __('Enable PayDollar Payment Module.'),
+	                    'default' => 'no'),
+	                'title' => array(
+	                    'title' => __('Title:'),
+	                    'type'=> 'text',
+	                    'description' => __('This controls the title which the user sees during checkout.'),
+	                    'default' => __('PayDollar/PesoPay/SiamPay')),
+	                'description' => array(
+	                    'title' => __('Description:'),
+	                    'type' => 'textarea',
+	                    'description' => __('This controls the description which the user sees during checkout.'),
+	                    'default' => __('Pay securely through PayDollar/PesoPay/SiamPay Secure Servers.')),
+	       		'payment_url' => array(
+	                    'title' => __('Payment URL'),
+	                    'type' => 'text',
+	                    'description' => __('This is the payment URL of PayDollar/PesoPay/SiamPay (via client post through browser).')),
+	                'merchant_id' => array(
+	                    'title' => __('Merchant ID'),
+	                    'type' => 'text',
+	                    'description' => __('This is your PayDollar/PesoPay/SiamPay merchant account ID.')),
+	       		'pay_method' => array(
+	                    'title' => __('Payment Method'),
+	                    'type' => 'text',
+	                    'description' => __('"ALL" for all supported payment methods of the merchant account, "CC" for credit cards only. Etc..'),
+	                    'default' => __('ALL')),
+	       		'pay_type' => array(
+	                    'title' => __('Payment Type'),
+	                    'type' => 'text',
+	                    'description' => __('"N" for Sale (Normal), "H" for Authorize (Hold).'),
+	                    'default' => __('N')),
+	       		'language' => array(
+	                    'title' => __('Language'),
+	                    'type' => 'text',
+	                    'description' => __('"E" for English, "C" for Traditional Chinese, "T" for Thai, Etc..'),
+	                    'default' => __('E')),
+	                'secure_hash_secret' => array(
+	                    'title' => __('Secure Hash Secret'),
+	                    'type' => 'text',
+	                    'description' => __('Optional. The secret key from PayDollar/PesoPay/SiamPay for the "Secure Hash" function.'),
+	                    'default' => __('')),
+	                'prefix' => array(
+	                    'title' => __('Prefix'),
+	                    'type' => 'text',
+	                    'description' => __('Optional. Prefix for Order Reference No. (Warning: Do not use a dash "-" because the system uses it as a separator between the prefix and the order reference no.)'),
+	                    'default' => __(''))
 			);
 		}
 
@@ -200,14 +199,14 @@ function woocommerce_paydollar_init(){
 				PayDollar/PesoPay/SiamPay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
 				<br/><br/>
 				<strong>PayDollar Payment URL:</strong> <br/>
-                - Live: https://www.paydollar.com/b2c2/eng/payment/payForm.jsp <br/>
-                - Test: https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp <br/>
-                <strong>PesoPay Payment URL:</strong> <br/>
-                - Live: https://www.pesopay.com/b2c2/eng/payment/payForm.jsp <br/>
-                - Test: https://test.pesopay.com/b2cDemo/eng/payment/payForm.jsp <br/>
-                <strong>SiamPay Payment URL:</strong> <br/>
-                - Live: https://www.siampay.com/b2c2/eng/payment/payForm.jsp <br/>
-                - Test: https://test.siampay.com/b2cDemo/eng/payment/payForm.jsp <br/>
+		                - Live: https://www.paydollar.com/b2c2/eng/payment/payForm.jsp <br/>
+		                - Test: https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp <br/>
+		                <strong>PesoPay Payment URL:</strong> <br/>
+		                - Live: https://www.pesopay.com/b2c2/eng/payment/payForm.jsp <br/>
+		                - Test: https://test.pesopay.com/b2cDemo/eng/payment/payForm.jsp <br/>
+		                <strong>SiamPay Payment URL:</strong> <br/>
+		                - Live: https://www.siampay.com/b2c2/eng/payment/payForm.jsp <br/>
+		                - Test: https://test.siampay.com/b2cDemo/eng/payment/payForm.jsp <br/>
 				<br/>
 				<strong>Test Credit Cards:</strong> <br/>
 				- VISA: 4918914107195005 <br/>
@@ -268,11 +267,11 @@ function woocommerce_paydollar_init(){
 			$paydollar_args = array(
 				'orderRef' => 		$orderRef,
 				'amount' => 		$order -> order_total,			
-		    	'merchantId' => 	$this -> merchant_id, 				 
+		    		'merchantId' => 	$this -> merchant_id, 				 
 				'payMethod' => 		$this -> pay_method, 
-				'payType'	=> 		$this -> pay_type,
+				'payType'=> 		$this -> pay_type,
 				'currCode' => 		$this -> curr_code,
-				'lang' => 			$this -> language,			
+				'lang' =>		$this -> language,			
 				'successUrl' => 	$success_url,
 				'failUrl' => 		$fail_url,
 				'cancelUrl' => 		$cancel_url,						
@@ -280,23 +279,23 @@ function woocommerce_paydollar_init(){
 				'remark' => 		$remarks
           	);
 
-			$paydollar_args_array = array();
-			foreach($paydollar_args as $key => $value){
-				$paydollar_args_array[] = "<input type='hidden' name='$key' value='$value'/>";
-			}
+		$paydollar_args_array = array();
+		foreach($paydollar_args as $key => $value){
+			$paydollar_args_array[] = "<input type='hidden' name='$key' value='$value'/>";
+		}
 			
           	return '<form action="' . $this -> payment_url . '" method="post" id="paydollar_payment_form">
             	' . implode('', $paydollar_args_array) . '
             		</form>
 		            <script type="text/javascript">
-						jQuery(function(){						
-							setTimeout("paydollar_payment_form();", 5000);
+					jQuery(function(){						
+						setTimeout("paydollar_payment_form();", 5000);
 	    				});
-						function paydollar_payment_form(){
-							jQuery("#paydollar_payment_form").submit();
-						}
+					function paydollar_payment_form(){
+						jQuery("#paydollar_payment_form").submit();
+					}
 	    			</script>
-            ';
+            	';
 
 		}
 		
@@ -325,22 +324,22 @@ function woocommerce_paydollar_init(){
 			
 			global $woocommerce;
 			
-			$src = $this->get_request('src');
-			$prc = $this->get_request('prc');
-			$ord = $this->get_request('Ord');
-			$holder = $this->get_request('Holder');
-			$successCode = $this->get_request('successcode');
-			$ref = $this->get_request('Ref');
-			$payRef = $this->get_request('PayRef');
-			$amt = $this->get_request('Amt');
-			$cur = $this->get_request('Cur');
-			$remark = $this->get_request('remark');
-			$authId = $this->get_request('AuthId');
-			$eci = $this->get_request('eci');
-			$payerAuth = $this->get_request('payerAuth');
-			$sourceIp = $this->get_request('sourceIp');
-			$ipCountry = $this->get_request('ipCountry');
-			$secureHash = $this->get_request('secureHash', "");
+			$src = $this -> get_request('src');
+			$prc = $this -> get_request('prc');
+			$ord = $this -> get_request('Ord');
+			$holder = $this -> get_request('Holder');
+			$successCode = $this -> get_request('successcode');
+			$ref = $this -> get_request('Ref');
+			$payRef = $this -> get_request('PayRef');
+			$amt = $this -> get_request('Amt');
+			$cur = $this -> get_request('Cur');
+			$remark = $this -> get_request('remark');
+			$authId = $this -> get_request('AuthId');
+			$eci = $this -> get_request('eci');
+			$payerAuth = $this -> get_request('payerAuth');
+			$sourceIp = $this -> get_request('sourceIp');
+			$ipCountry = $this -> get_request('ipCountry');
+			$secureHash = $this -> get_request('secureHash', "");
 			
 			echo "OK!";
 			
@@ -373,14 +372,20 @@ function woocommerce_paydollar_init(){
 							if($successCode == "0"){								
 								if($order -> status == 'processing'){
 									//do nothing
+									//echo "<script>console.log('INSIDE PROCESSING' );</script>";
 								}else{		
 									wc_get_logger()->info( 'Order Success' );
+									//echo "<script>console.log('INSIDE NOT PROCESSING' );</script>";
+
 									$this -> msg['message'] = 'Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon. Payment reference no: ' . $payRef;
 									$this -> msg['class'] = 'woocommerce_message';
 									
+									//$order -> payment_complete();
 									$order -> update_status('completed');
 									$order -> add_order_note('Your payment was successful! Payment reference no: '.$payRef);
 									$woocommerce -> cart -> empty_cart();	
+
+									//echo "<script>console.log('Debug Objects: " . $order -> status . "' );</script>";
 									echo ' - Payment Success!';
 								}
 							}else{	
