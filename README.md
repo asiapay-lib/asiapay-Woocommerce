@@ -18,7 +18,7 @@ This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8
 5.	Go to WooCommerce section > Settings.
 6.	Go to Payment Gateways Tab.
 7.	Go to PayDollar.
-8.	Set the module configurations.
+8.	Set the module configurations
 
 ## Setup the Datafeed URL on PayDollar/PesoPay/SiamPay
  1. Login to your PayDollar/PesoPay/SiamPay account.
