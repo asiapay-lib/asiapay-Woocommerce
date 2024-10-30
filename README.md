@@ -1,5 +1,5 @@
 # PayDollar/PesoPay/SiamPay Payment plugin for Woocommerce
-Use PayDollar/PesoPay/SiamPay plugin for Woocommerce on Wordpress to offer ALL payments option.
+Use PayDollar/PesoPay/SiamPay plugin for Woocommerce on Wordpress to offer ALL payments option
 
 ## Download
 Please download the latest plugin version. [Download](https://github.com/asiapay-lib/asiapay-Woocommerce/releases/latest)
