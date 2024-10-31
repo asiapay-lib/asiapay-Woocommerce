@@ -27,7 +27,7 @@ This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8
  4. On the confirmation page, review your changes then click the “Confirm button”.
 
 ## Woocommerce 8.3+
-If you are using Woocommerce version 8.3 or above, you may find the checkout option is not displayed althought the plugin installation is completed.
+If you are using Woocommerce version 8.3 or above, you may find the checkout option is not displayed although the plugin installation is completed.
 You will be required to follow the steps to switch back to the Classic Checkout mode.
 [Woocommerce Documentation: Cart and Checkout Blocks](https://woocommerce.com/document/cart-checkout-blocks-status/#compatible-extensions)
 
