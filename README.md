@@ -14,7 +14,7 @@ This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8
 1.	Upload the paydollar plugin to the wordpress plugins folder (/wordpress/wp-content/plugins/paydollar-payment-gateway-woocommerce/) using an FTP client.
 2.	Login to WordPress Backend
 3.	Go to the plugins section.
-4.	Find the WooCommerce PayDollar Payment Gatewayand click “Activate”
+4.	Find the WooCommerce PayDollar Payment Gateway and click “Activate”
 5.	Go to WooCommerce section > Settings.
 6.	Go to Payment Gateways Tab.
 7.	Go to PayDollar.
