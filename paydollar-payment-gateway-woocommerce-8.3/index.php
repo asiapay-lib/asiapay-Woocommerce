@@ -1,10 +1,10 @@
 <?php
 
 /*
- Plugin Name: WooCommerce PayDollar Payment Gateway
+ Plugin Name: PayDollar Payment Gateway Woocommerce
  Plugin URI: http://www.paydollar.com
- Description: PayDollar Payment Gateway for woocommerce
- Version: 1.2
+ Description: PayDollar/PesoPay/SiamPay Payment gateway plugin for woocommerce
+ Version: 8.3
  Author: APPH
  Author URI: https://www.asiapay.com.ph/
  */
