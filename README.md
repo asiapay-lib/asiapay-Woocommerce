@@ -32,7 +32,7 @@ You will be required to follow the steps to switch back to the Classic Checkout 
 [Woocommerce Documentation: Cart and Checkout Blocks](https://woocommerce.com/document/cart-checkout-blocks-status/#compatible-extensions)
 
 ## Documentation
-[Woocommerce Documentation](https://github.com/asiapay-lib/Woocommerce/raw/master/WordPress%2BWooCommerce%20Module%20Integration%20Guide.doc)
+[PayDollar/PesoPay/SiamPay PayGate – Integration Guide for WooCommerce](https://github.com/asiapay-lib/Woocommerce/raw/master/WordPress%2BWooCommerce%20Module%20Integration%20Guide.doc)
 
 ## Support
 If you have a feature request, or spotted a bug or a technical problem, create a GitHub issue. For other questions, contact our [Customer Service](https://www.paydollar.com/en/contact-us.html).
