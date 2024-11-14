@@ -10,6 +10,17 @@ The plugin integrates Woocommerce on Wordpress with PayDollar/PesoPay/SiamPay pa
 ## Requirements
 This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8.1 and higher.
 
+## Versions & PHP Compatibility
+### Plugin Versions & PHP Compatibility
+The PayDollar/PesoPay/SiamPay Payment Gateway for WooCommerce plugin has different versions tailored for various PHP versions.
+- **paydollar-payment-gateway-woocommerce-1.0.2**
+    - **PHP Support:** PHP 8.0 and higher
+    - **WooCommerce Compatibility:** WooCommerce 7.0 and higher
+- **paydollar-payment-gateway-woocommerce (Legacy Version)**
+    - **PHP Support:** PHP 7.3 and higher
+    - **WooCommerce Compatibility:** WooCommerce 2.1.2 and higher
+
+
 ## Installation
 1.	Upload the paydollar plugin to the wordpress plugins folder (/wordpress/wp-content/plugins/paydollar-payment-gateway-woocommerce/) using an FTP client.
 2.	Login to WordPress Backend
