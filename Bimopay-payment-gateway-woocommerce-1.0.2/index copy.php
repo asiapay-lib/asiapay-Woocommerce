@@ -1,24 +1,24 @@
 <?php
 
 /*
- Plugin Name: bimopay/bimopay Payment Gateway Woocommerce
- Plugin URI: http://www.bimopay.com
- Description: bimopay Payment gateway plugin for woocommerce
+ Plugin Name: PayDollar Payment Gateway Woocommerce
+ Plugin URI: http://www.paydollar.com
+ Description: PayDollar/PesoPay/SiamPay Payment gateway plugin for woocommerce
  Version: 8.3
- Author: APID
- Author URI: https://www.bimopay.com/
+ Author: APPH
+ Author URI: https://www.asiapay.com.ph/
  */
 
-add_action('plugins_loaded', 'woocommerce_bimopay_init', 0);
-function woocommerce_bimopay_init(){	
+add_action('plugins_loaded', 'woocommerce_paydollar_init', 0);
+function woocommerce_paydollar_init(){	
 	if(!class_exists('WC_Payment_Gateway')) return;
 	
-	class WC_bimopay extends WC_Payment_Gateway{
+	class WC_PayDollar extends WC_Payment_Gateway{
 
 		public function __construct(){
 			
-			$this -> id = 'bimopay';
-			$this -> medthod_title = 'bimopay';
+			$this -> id = 'paydollar';
+			$this -> medthod_title = 'PayDollar';
 			$this -> has_fields = false;
 
 			$this -> init_form_fields();
@@ -43,10 +43,10 @@ function woocommerce_bimopay_init(){
 			} else {
 				add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
 			}
-			add_action('woocommerce_receipt_bimopay', array(&$this, 'receipt_page'));
+			add_action('woocommerce_receipt_paydollar', array(&$this, 'receipt_page'));
 			
 			/* for callback/datafeed */			
-			add_action( 'woocommerce_api_wc_bimopay', array( $this, 'gateway_response' ) );
+			add_action( 'woocommerce_api_wc_paydollar', array( $this, 'gateway_response' ) );
 		}
 		
 		function generatePaymentSecureHash($merchantId, $merchantReferenceNumber, $currencyCode, $amount, $paymentType, $secureHashSecret) {
@@ -54,8 +54,8 @@ function woocommerce_bimopay_init(){
 			return sha1($buffer);
 		}
 		
-		function verifyPaymentDatafeed($src, $prc, $successCode, $merchantReferenceNumber, $bimopayReferenceNumber, $currencyCode, $amount, $payerAuthenticationStatus, $secureHashSecret, $secureHash) {
-			$buffer = $src . '|' . $prc . '|' . $successCode . '|' . $merchantReferenceNumber . '|' . $bimopayReferenceNumber . '|' . $currencyCode . '|' . $amount . '|' . $payerAuthenticationStatus . '|' . $secureHashSecret;
+		function verifyPaymentDatafeed($src, $prc, $successCode, $merchantReferenceNumber, $paydollarReferenceNumber, $currencyCode, $amount, $payerAuthenticationStatus, $secureHashSecret, $secureHash) {
+			$buffer = $src . '|' . $prc . '|' . $successCode . '|' . $merchantReferenceNumber . '|' . $paydollarReferenceNumber . '|' . $currencyCode . '|' . $amount . '|' . $payerAuthenticationStatus . '|' . $secureHashSecret;
 			$verifyData = sha1($buffer);
 			if ($secureHash == $verifyData) {
 				return true;
@@ -147,31 +147,31 @@ function woocommerce_bimopay_init(){
                 'enabled' => array(
                     'title' => __('Enable/Disable'),
                     'type' => 'checkbox',
-                    'label' => __('Enable bimopay Payment Module.'),
+                    'label' => __('Enable PayDollar Payment Module.'),
                     'default' => 'no'),
-				'title' => array(
-					'title' => __('Title:'),
-					'type'=> 'text',
-					'description' => __('This controls the title which the user sees during checkout.'),
-					'default' => __('bimopay')),
+                'title' => array(
+                    'title' => __('Title:'),
+                    'type'=> 'text',
+                    'description' => __('This controls the title which the user sees during checkout.'),
+                    'default' => __('PayDollar/PesoPay/SiamPay')),
                 'description' => array(
                     'title' => __('Description:'),
                     'type' => 'textarea',
                     'description' => __('This controls the description which the user sees during checkout.'),
-                    'default' => __('Pay securely through bimopay Secure Servers.')),
-				'payment_url' => array(
-			  		'title' => __('Payment URL'),
-			  		'type' => 'text',
-			  		'description' => __('This is the payment URL of bimopay (via client post through browser).')),
-				'merchant_id' => array(
-					'title' => __('Merchant ID'),
-					'type' => 'text',
-					'description' => __('This is your bimopay merchant account ID.')),
-	  			'pay_method' => array(
-			  		'title' => __('Payment Method'),
-			  		'type' => 'text',
-			  		'description' => __('"ALL" for all supported payment methods of the merchant account, "CC" for credit cards only. Etc.. (For bimopay, use the methods supported by your bimopay account.)'),
-			  		'default' => __('ALL')),
+                    'default' => __('Pay securely through PayDollar/PesoPay/SiamPay Secure Servers.')),
+       			'payment_url' => array(
+                    'title' => __('Payment URL'),
+                    'type' => 'text',
+                    'description' => __('This is the payment URL of PayDollar/PesoPay/SiamPay (via client post through browser).')),
+                'merchant_id' => array(
+                    'title' => __('Merchant ID'),
+                    'type' => 'text',
+                    'description' => __('This is your PayDollar/PesoPay/SiamPay merchant account ID.')),
+       			'pay_method' => array(
+                    'title' => __('Payment Method'),
+                    'type' => 'text',
+                    'description' => __('"ALL" for all supported payment methods of the merchant account, "CC" for credit cards only. Etc..'),
+                    'default' => __('ALL')),
        			'pay_type' => array(
                     'title' => __('Payment Type'),
                     'type' => 'text',
@@ -185,25 +185,32 @@ function woocommerce_bimopay_init(){
                 'secure_hash_secret' => array(
                     'title' => __('Secure Hash Secret'),
                     'type' => 'text',
-                    'description' => __('Optional. The secret key from bimopay for the "Secure Hash" function.'),
+                    'description' => __('Optional. The secret key from PayDollar/PesoPay/SiamPay for the "Secure Hash" function.'),
                     'default' => __('')),
-				'prefix' => array(
-					'title' => __('Prefix'),
-					'type' => 'text',
-					'description' => __('Optional. Prefix for Order Reference No. (Warning: Do not use a dash "-" because the system uses it as a separator between the prefix and the order reference no.)'),
-					'default' => __(''))
+                'prefix' => array(
+                    'title' => __('Prefix'),
+                    'type' => 'text',
+                    'description' => __('Optional. Prefix for Order Reference No. (Warning: Do not use a dash "-" because the system uses it as a separator between the prefix and the order reference no.)'),
+                    'default' => __(''))
 			);
 		}
 
 		public function admin_options(){
-			echo '<h3>'.__('/bimopay Payment Gateway').'</h3>';
+			echo '<h3>'.__('PayDollar Payment Gateway').'</h3>';
 			echo '<p>'.__('
-				bimopay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
+				PayDollar/PesoPay/SiamPay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
 				<br/><br/>
-				<strong>bimopay Payment URL:</strong> <br/>
-				- Live: https://www.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
-				- Test: https://dev.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
+				<strong>PayDollar Payment URL:</strong> <br/>
+                - Live: https://www.paydollar.com/b2c2/eng/payment/payForm.jsp <br/>
+                - Test: https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp <br/>
+                <strong>PesoPay Payment URL:</strong> <br/>
+                - Live: https://www.pesopay.com/b2c2/eng/payment/payForm.jsp <br/>
+                - Test: https://test.pesopay.com/b2cDemo/eng/payment/payForm.jsp <br/>
+                <strong>SiamPay Payment URL:</strong> <br/>
+                - Live: https://www.siampay.com/b2c2/eng/payment/payForm.jsp <br/>
+                - Test: https://test.siampay.com/b2cDemo/eng/payment/payForm.jsp <br/>
 				<br/>
+				
 				<strong>Test Credit Cards:</strong> <br/>
 				- VISA: 4918914107195005 <br/>
 				- Master: 5422882800700007 <br/>
@@ -229,13 +236,13 @@ function woocommerce_bimopay_init(){
 		 **/
 		function receipt_page($order){
 			echo '<p>'.__('Thank you for your order. We are now redirecting you to the Payment Gateway to proceed with the payment.').'</p>';
-			echo $this -> generate_bimopay_form($order);
+			echo $this -> generate_paydollar_form($order);
 		}
 		
 		/**
-		 * Generate bimopay button link
+		 * Generate PayDollar button link
 		 **/
-		public function generate_bimopay_form($order_id){
+		public function generate_paydollar_form($order_id){
 
 			global $woocommerce;
 
@@ -262,7 +269,7 @@ function woocommerce_bimopay_init(){
 					
 			$remarks = '';
 			
-			$bimopay_args = array(
+			$paydollar_args = array(
 				'orderRef' => 		$orderRef,
 				'amount' => 		$order -> get_total(),		
 		    	'merchantId' => 	$this -> merchant_id, 				 
@@ -280,20 +287,20 @@ function woocommerce_bimopay_init(){
 				'threeDSMobilePhoneCountryCode' =>	str_replace("+", "", $country -> get_country_calling_code($order -> get_billing_country())),
           	);
 			
-			  $bimopay_args_array = array();
-			  foreach ($bimopay_args as $key => $value) {
-					  $bimopay_args_array[] = "<input type='hidden' name='$key' value='$value'/>";
+			  $paydollar_args_array = array();
+			  foreach ($paydollar_args as $key => $value) {
+					  $paydollar_args_array[] = "<input type='hidden' name='$key' value='$value'/>";
 				  }
 
-          	return '<form action="' . $this -> payment_url . '" method="post" id="bimopay_payment_form">
-            	' . implode('', $bimopay_args_array) . '
+          	return '<form action="' . $this -> payment_url . '" method="post" id="paydollar_payment_form">
+            	' . implode('', $paydollar_args_array) . '
             		</form>
 		            <script type="text/javascript">
 						jQuery(function(){						
-							setTimeout("bimopay_payment_form();", 5000);
+							setTimeout("paydollar_payment_form();", 5000);
 	    				});
-						function bimopay_payment_form(){
-							jQuery("#bimopay_payment_form").submit();
+						function paydollar_payment_form(){
+							jQuery("#paydollar_payment_form").submit();
 						}
 	    			</script>
             ';
@@ -314,7 +321,7 @@ function woocommerce_bimopay_init(){
 		}
 
 		/**
-		 * Check for valid bimopay server datafeed
+		 * Check for valid paydollar server datafeed
 		 **/
 		function gateway_response(){
 			
@@ -323,7 +330,7 @@ function woocommerce_bimopay_init(){
 			// $logger = wc_get_logger();
 
 			// Log the POST data
-			// $logger->info(print_r($_REQUEST, true), array('source' => 'bimopay_callback'));
+			// $logger->info(print_r($_REQUEST, true), array('source' => 'paydollar_callback'));
 
 
 			$src = $_REQUEST['src'];
@@ -445,11 +452,11 @@ function woocommerce_bimopay_init(){
 	/**
 	 * Add the Gateway to WooCommerce
 	 **/
-	function woocommerce_add_bimopay_gateway($methods) {
-		$methods[] = 'WC_bimopay';
+	function woocommerce_add_paydollar_gateway($methods) {
+		$methods[] = 'WC_PayDollar';
 		return $methods;
 	}
 
-	add_filter('woocommerce_payment_gateways', 'woocommerce_add_bimopay_gateway' );
+	add_filter('woocommerce_payment_gateways', 'woocommerce_add_paydollar_gateway' );
 	
 }
