@@ -3,7 +3,7 @@
 /*
  Plugin Name: PayDollar Payment Gateway Woocommerce
  Plugin URI: http://www.paydollar.com
- Description: PayDollar/PesoPay/SiamPay Payment gateway plugin for woocommerce
+ Description: PayDollar/PesoPay/SiamPay/Bimopay Payment gateway plugin for woocommerce
  Version: 8.3
  Author: APPH
  Author URI: https://www.asiapay.com.ph/
@@ -198,7 +198,7 @@ function woocommerce_paydollar_init(){
 		public function admin_options(){
 			echo '<h3>'.__('PayDollar Payment Gateway').'</h3>';
 			echo '<p>'.__('
-				PayDollar/PesoPay/SiamPay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
+				PayDollar/PesoPay/SiamPay/Bimopay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
 				<br/><br/>
 				<strong>PayDollar Payment URL:</strong> <br/>
                 - Live: https://www.paydollar.com/b2c2/eng/payment/payForm.jsp <br/>
