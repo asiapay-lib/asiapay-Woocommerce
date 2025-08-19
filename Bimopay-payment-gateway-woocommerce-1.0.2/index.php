@@ -1,9 +1,9 @@
 <?php
 
 /*
- Plugin Name: bimopay/bimopay Payment Gateway Woocommerce
+ Plugin Name: Bimopay Payment Gateway Woocommerce
  Plugin URI: http://www.bimopay.com
- Description: bimopay Payment gateway plugin for woocommerce
+ Description: Bimopay Payment gateway plugin for woocommerce
  Version: 8.3
  Author: APID
  Author URI: https://www.bimopay.com/
@@ -196,7 +196,7 @@ function woocommerce_bimopay_init(){
 		}
 
 		public function admin_options(){
-			echo '<h3>'.__('/bimopay Payment Gateway').'</h3>';
+			echo '<h3>'.__('Bimopay Payment Gateway').'</h3>';
 			echo '<p>'.__('
 				bimopay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
 				<br/><br/>
