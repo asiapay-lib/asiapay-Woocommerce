@@ -209,6 +209,9 @@ function woocommerce_paydollar_init(){
                 <strong>SiamPay Payment URL:</strong> <br/>
                 - Live: https://www.siampay.com/b2c2/eng/payment/payForm.jsp <br/>
                 - Test: https://test.siampay.com/b2cDemo/eng/payment/payForm.jsp <br/>
+				<strong>Bimopay Payment URL:</strong> <br/>
+				- Live: https://www.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
+				- Test: https://dev.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
 				<br/>
 				
 				<strong>Test Credit Cards:</strong> <br/>
