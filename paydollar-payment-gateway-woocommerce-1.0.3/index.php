@@ -2,8 +2,8 @@
 /*
  Plugin Name: WooCommerce PayDollar Payment Gateway
  Plugin URI: http://www.paydollar.com
- Description: PayDollar Payment gateway for woocommerce
- Version: 1.2
+ Description: PayDollar/PesoPay/SiamPay/Bimopay Payment gateway plugin for woocommerce
+ Version: 8.3
  Author: APPH
  Author URI: http://www.asiapay.com.ph
  */
@@ -165,21 +165,21 @@ function woocommerce_paydollar_init(){
                     'title' => __('Title:'),
                     'type'=> 'text',
                     'description' => __('This controls the title which the user sees during checkout.'),
-                    'default' => __('PayDollar/PesoPay/SiamPay')),
+                    'default' => __('PayDollar/PesoPay/SiamPay/Bimopay')),
                 'description' => array(
                     'title' => __('Description:'),
                     'type' => 'textarea',
                     'description' => __('This controls the description which the user sees during checkout.'),
-                    'default' => __('Pay securely through PayDollar/PesoPay/SiamPay Secure Servers.')),
+                    'default' => __('Pay securely through PayDollar/PesoPay/SiamPay/Bimopay Secure Servers.')),
                 'payment_url' => array(
                     'title' => __('Payment URL'),
                     'type' => 'text',
                     'description' => __('
-                        This is the payment URL of PayDollar/PesoPay/SiamPay (via client post through browser).')),
+                        This is the payment URL of PayDollar/PesoPay/SiamPay/Bimopay (via client post through browser).')),
                 'merchant_id' => array(
                     'title' => __('Merchant ID'),
                     'type' => 'text',
-                    'description' => __('This is your PayDollar/PesoPay/SiamPay merchant account ID.')),
+                    'description' => __('This is your PayDollar/PesoPay/SiamPay/Bimopay merchant account ID.')),
                 'pay_method' => array(
                     'title' => __('Payment Method'),
                     'type' => 'text',
@@ -198,7 +198,7 @@ function woocommerce_paydollar_init(){
                 'secure_hash_secret' => array(
                     'title' => __('Secure Hash Secret'),
                     'type' => 'text',
-                    'description' => __('Optional. The secret key from PayDollar/PesoPay/SiamPay for the "Secure Hash" function.'),
+                    'description' => __('Optional. The secret key from PayDollar/PesoPay/SiamPay/Bimopay for the "Secure Hash" function.'),
                     'default' => __('')),
                 'prefix' => array(
                     'title' => __('Prefix'),
@@ -211,7 +211,7 @@ function woocommerce_paydollar_init(){
         public function admin_options(){
             echo '<h3>'.__('PayDollar Payment Gateway').'</h3>';
             echo '<p>'.__('
-                PayDollar/PesoPay/SiamPay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
+                PayDollar/PesoPay/SiamPay/Bimopay PayGate is a powerful secure online payment services platform. It is used by many renowned companies and organizations.
                 <br/><br/>
                 <strong>PayDollar Payment URL:</strong> <br/>
                 - Live: https://www.paydollar.com/b2c2/eng/payment/payForm.jsp <br/>
@@ -222,7 +222,11 @@ function woocommerce_paydollar_init(){
                 <strong>SiamPay Payment URL:</strong> <br/>
                 - Live: https://www.siampay.com/b2c2/eng/payment/payForm.jsp <br/>
                 - Test: https://test.siampay.com/b2cDemo/eng/payment/payForm.jsp <br/>
+                <strong>Bimopay Payment URL:</strong> <br/>
+                - Live: https://www.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
+                - Test: https://dev.bimopay.com/b2c2/eng/payment/payForm.jsp <br/>
                 <br/>
+                
                 <strong>Test Credit Cards:</strong> <br/>
                 - VISA: 4918914107195005 <br/>
                 - Master: 5422882800700007 <br/>
@@ -260,6 +264,7 @@ function woocommerce_paydollar_init(){
 
             $order = new WC_Order($order_id);
             
+            $country = new WC_Countries();
             
             if($this->prefix == ''){
                 $orderRef = $order_id;
@@ -291,7 +296,10 @@ function woocommerce_paydollar_init(){
                 'failUrl' =>        $fail_url,
                 'cancelUrl' =>      $cancel_url,                        
                 'secureHash' =>     $secureHash,
-                'remark' =>         $remarks
+                'remark' =>         $remarks,
+                'threeDSCustomerEmail' =>    $order -> get_billing_email(),
+                'threeDSMobilePhoneNumber' =>    $order -> get_billing_phone(),
+                'threeDSMobilePhoneCountryCode' =>    str_replace("+", "", $country -> get_country_calling_code($order -> get_billing_country())),
               );
 
             $paydollar_args_array = array();
