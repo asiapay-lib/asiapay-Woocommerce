@@ -11,8 +11,11 @@ The plugin integrates Woocommerce on Wordpress with PayDollar/PesoPay/SiamPay pa
 This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8.1 and higher.
 
 ## Plugin Version Compatibility (PHP & WooCommerce)
-The PayDollar/PesoPay/SiamPay Payment Gateway for WooCommerce plugin has different versions tailored for various PHP versions.
-- **paydollar-payment-gateway-woocommerce-1.0.2**
+The PayDollar/PesoPay/SiamPay/Bimopay Payment Gateway for WooCommerce plugin has different versions tailored for various PHP versions.
+- **paydollar-payment-gateway-woocommerce-1.0.3 (WooCommerce 9)**
+    - **PHP Support:** PHP 8.0 and higher
+    - **WooCommerce Compatibility:** WooCommerce 9.0 and higher
+- **paydollar-payment-gateway-woocommerce-1.0.2 (WooCommerce 7)**
     - **PHP Support:** PHP 8.0 and higher
     - **WooCommerce Compatibility:** WooCommerce 7.0 and higher
 - **paydollar-payment-gateway-woocommerce (Legacy Version)**
@@ -30,8 +33,8 @@ The PayDollar/PesoPay/SiamPay Payment Gateway for WooCommerce plugin has differe
 7.	Go to PayDollar.
 8.	Set the module configurations
 
-## Setup the Datafeed URL on PayDollar/PesoPay/SiamPay
- 1. Login to your PayDollar/PesoPay/SiamPay account.
+## Setup the Datafeed URL on PayDollar/PesoPay/SiamPay/BimoPay
+ 1. Login to your PayDollar/PesoPay/SiamPay/BimoPay account.
  2. After login, Go to left sidebar on Profile > Profile Settings > Payment Options.
  3. Click the “Enable” radio button and set the datafeed URL on “Return Value Link” and click the “Update” button. The datafeed URL should be like this: http://www.yourdomain.com/index.php?wc-api=wc_paydollar
  4. On the confirmation page, review your changes then click the “Confirm button”.
