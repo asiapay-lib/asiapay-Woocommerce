@@ -12,6 +12,9 @@ This plugin supports Woocommerce version 2.1.2 and higher, Wordpress version 3.8
 
 ## Plugin Version Compatibility (PHP & WooCommerce)
 The PayDollar/PesoPay/SiamPay Payment Gateway for WooCommerce plugin has different versions tailored for various PHP versions.
+- **paydollar-payment-gateway-woocommerce-1.0.3**
+    - **PHP Support:** PHP 8.2 and higher
+    - **WooCommerce Compatibility:** WooCommerce 9.9.5 and higher
 - **paydollar-payment-gateway-woocommerce-1.0.2**
     - **PHP Support:** PHP 8.0 and higher
     - **WooCommerce Compatibility:** WooCommerce 7.0 and higher
