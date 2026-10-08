@@ -72,7 +72,7 @@ function woocommerce_paydollar_init(){
         function verifyPaymentDatafeed($src, $prc, $successCode, $merchantReferenceNumber, $paydollarReferenceNumber, $currencyCode, $amount, $payerAuthenticationStatus, $secureHashSecret, $secureHash) {
             $buffer = $src . '|' . $prc . '|' . $successCode . '|' . $merchantReferenceNumber . '|' . $paydollarReferenceNumber . '|' . $currencyCode . '|' . $amount . '|' . $payerAuthenticationStatus . '|' . $secureHashSecret;
             $verifyData = sha1($buffer);
-            return $secureHash == $verifyData;
+            return hash_equals($verifyData, (string) $secureHash);
         }
         
         function getCurrCode($woocommerce_currency){
@@ -384,7 +384,7 @@ function woocommerce_paydollar_init(){
                             }
                         }
                         
-                        if( $this->secure_hash_secret == '' || $checkSecureHash ){
+                        if( $this->secure_hash_secret != '' && $checkSecureHash ){
 
                             if($successCode == "0"){                                
                                 if($order->status == 'processing'){
@@ -414,7 +414,6 @@ function woocommerce_paydollar_init(){
                             $this->msg['message'] = 'Security Error. Illegal access detected. Payment reference no: '.$payRef;
                             $this->msg['class'] = 'error';
                             
-                            $order->update_status('failed');
                             $order->add_order_note('Secure Hash checking failed! Payment reference no: '.$payRef);
                             echo ' - Secure Hash Failed!';
                         }
