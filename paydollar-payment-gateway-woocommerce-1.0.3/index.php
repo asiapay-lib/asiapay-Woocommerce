@@ -387,8 +387,10 @@ function woocommerce_paydollar_init(){
                         if( $this->secure_hash_secret != '' && $checkSecureHash ){
 
                             if($successCode == "0"){                                
-                                if($order->status == 'processing'){
+                                if($order->is_paid()){
                                     //do nothing
+                                }elseif( ! $order->has_status( array( 'pending', 'on-hold', 'failed' ) ) ){
+                                    $order->add_order_note('Payment success received but the order is ' . $order->get_status() . '. Status not changed. Payment reference no: '.$payRef);
                                 }else{                                    
                                     $this->msg['message'] = 'Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon. Payment reference no: ' . $payRef;
                                     $this->msg['class'] = 'woocommerce_message';
@@ -399,7 +401,7 @@ function woocommerce_paydollar_init(){
                                     echo ' - Payment Success!';
                                 }
                             }else{    
-                                if($order->status == 'processing'){
+                                if( ! $order->has_status( array( 'pending', 'on-hold' ) ) ){
                                     //do nothing
                                 }else{                            
                                     $this->msg['message'] = 'Thank you for shopping with us. However, the transaction has been declined. Payment reference no: '. $payRef;
